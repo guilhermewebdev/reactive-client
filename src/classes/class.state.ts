@@ -1,4 +1,4 @@
-interface Observer {
+interface Observer extends Function {
     (state: any): void
 }
 export default class State {
@@ -20,9 +20,7 @@ export default class State {
     }
 
     public addMultipleObservers(observers: Array<Observer>) {
-        this._observers.concat(
-            observers.filter(item => this._observers.indexOf(item) === -1)
-        );
+        this._observers = this._observers.concat(observers);
     }
 
     public setObservers(observers: Array<Observer>) {

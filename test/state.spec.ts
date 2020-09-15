@@ -26,4 +26,11 @@ describe('State', () => {
         assert.equal(history[0], 'test')
         assert.equal(history[1], 'new test')
     })
+    describe('#addMultipleObservers', () => {
+        state.clearObservers();
+        const observer = (data: any) => console.log(data)
+        const observer2 = (data: any) => console.log(data, 'hello world')
+        state.addMultipleObservers([observer, observer, observer2])
+        assert.lengthOf(state.observers, 3)
+    })
 })
