@@ -4,19 +4,26 @@ import chai from 'chai';
 const { assert } = chai;
 
 describe('State', () => {
-    const state = new State('teste');
-
+    const state = new State('test');
+    assert.equal(state.state, 'test')
     describe('#addObserver', () => {
         var count = 0;
-        const observer = (data: any) => count++;
-        state.addObserver(observer);
-        state.addObserver(observer);
+        const observer = () => count++;
+        state.addObserver(observer)
+            .addObserver(observer);
         assert.equal(count, 2);
     })
-
+    describe('#clearObservers', () => {
+        state.clearObservers();
+        assert.lengthOf(state.observers, 0);
+    })
     describe('#setState', () => {
-        const history = [];
+        const history: Array<any> = [];
         const observer = (data: any) => history.push(data);
-        
+        state.addObserver(observer)
+        state.state = 'new test'
+        assert.lengthOf(history, 2)
+        assert.equal(history[0], 'test')
+        assert.equal(history[1], 'new test')
     })
 })
