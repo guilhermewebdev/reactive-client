@@ -1,6 +1,6 @@
 
 export default class State {
-    private observers: Array<(state: any) => void> = [];
+    private _observers: Array<(state: any) => void> = [];
     private _state: any;
 
     constructor(initialState: any) {
@@ -8,16 +8,22 @@ export default class State {
     }
 
     private notifyObservers() {
-        this.observers.forEach(observer => observer(this._state));
+        this._observers.forEach(observer => observer(this._state));
     }
 
     public addObserver(observer: (state: any) => void) {
-        this.observers.push(observer);
+        this._observers.indexOf(observer) === -1 && this._observers.push(observer);
         return this;
     }
 
+    public addMultipleObservers(observers: Array<(state: any) => void>) {
+        this._observers.concat(
+            observers.filter(item => this._observers.indexOf(item) === -1)
+        );
+    }
+
     set state(state: any) {
-        if(state !== this._state){
+        if (state !== this._state) {
             this.state = state;
             this.notifyObservers();
         }
