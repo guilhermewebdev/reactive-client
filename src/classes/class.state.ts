@@ -13,6 +13,7 @@ export default class State {
 
     public addObserver(observer: (state: any) => void) {
         this._observers.indexOf(observer) === -1 && this._observers.push(observer);
+        observer(this._state)
         return this;
     }
 
