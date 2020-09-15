@@ -1,6 +1,7 @@
 interface Observer extends Function {
     (state: any): void
 }
+
 export default class State<T> {
     private _observers: Array<Observer> = [];
     private _state: T;
